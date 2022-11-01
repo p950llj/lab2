@@ -1,0 +1,17 @@
+sourceSets {
+    componentTests {
+        java.srcDir file(componentTestsSourceDir)
+        resources.srcDir file(componentTestsResourceDir)
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+task componentTests(type: Test) {
+    useJUnitPlatform()
+    description = 'Runs the component tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.componentTests.output.classesDirs
+    classpath = sourceSets.componentTests.runtimeClasspath
+    include '**/*Test.class'
+}
+check.dependsOn componentTests

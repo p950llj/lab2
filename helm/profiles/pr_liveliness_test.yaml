@@ -1,0 +1,14 @@
+spacetime-springboot-common:
+  replicaCount: 1
+
+  observability:
+    appDynamics:
+      agent:
+        enabled: false
+  java:
+    javaToolOptions: >-
+      -Dspring.profiles.active=test
+      -Xmx1g
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.net=ALL-UNNAMED
+      --add-opens=java.management/java.lang.management=ALL-UNNAMED

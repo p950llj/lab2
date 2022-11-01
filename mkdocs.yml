@@ -1,0 +1,10 @@
+site_name: '<APP>'
+site_description: 'Main documentation for <APP>'
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Home: index.md
+  - Application description: description.md
+  - Developer  Documentation: developer.md

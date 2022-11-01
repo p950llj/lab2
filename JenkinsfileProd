@@ -1,0 +1,16 @@
+#!groovy
+@Library(['jenkins-shared-pipelines@CORES-6386']) _
+
+spacetimeApplication([
+        appImageName: 'sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802',
+        openshiftProject: 'sb-1079-spacetime-tools',
+        openshiftClusters: [
+                [name: 'scp-west-zone01-z01', credentialId: 'sb_1079_spacetime_tools_oc_token_west_zone01_z01_jib'],
+                [name: 'scp-west-zone02-z01', credentialId: 'sb_1079_spacetime_tools_oc_token_west_zone02_z01_jib'],
+        ],
+        // TODO: perhaps we should enable snap but only in test?
+        //https://git.swedbank.net/projects/DCCICD/repos/snaptest/browse/Jenkinsfile
+        disableRecordSnapChangeStage: false,
+        //snapServerURL: 'https://swedtest.swedbank.net',
+        cmdb_ci: '4d6f770ec312159894eb7c94e4013178'
+])

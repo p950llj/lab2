@@ -1,0 +1,19 @@
+sourceSets {
+    captureTest {
+        java.srcDir file(captureTestSourceDir)
+        resources.srcDir file(captureTestResourceDir)
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+task captureExternalCommunication(type: Test) {
+    useJUnitPlatform()
+    description = 'Runs capture task of outbound communication with Wiremock'
+    group = 'verification'
+    testClassesDirs = sourceSets.captureTest.output.classesDirs
+    classpath = sourceSets.captureTest.runtimeClasspath
+    include '**/*Test.class'
+}
+
+check.dependsOn componentTests

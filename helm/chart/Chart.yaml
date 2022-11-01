@@ -1,0 +1,9 @@
+apiVersion: v2
+description: The core-demo application
+name: core-demo
+# Attribute version will be replaced by pipeline
+version: 0.0.0
+dependencies:
+  - name: spacetime-springboot-common
+    version: 10.3.0
+    repository: https://repository.swedbank.net/artifactory/spacetime-helm-virtual

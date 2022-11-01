@@ -1,0 +1,10 @@
+[
+  {
+    "javaPackage": "<ENTER.THE.PACKAGE.TO.GENERATE.IN>",
+    "name": "<ENTER SERVICE FUNCTION: eg. KNDListaBankidKundStd>"
+  },
+  {
+    "javaPackage": "<ENTER.THE.PACKAGE.TO.GENERATE.IN>",
+    "name": "<ENTER SERVICE FUNCTION: eg. BFMListaFmgivareStd>"
+  }
+]

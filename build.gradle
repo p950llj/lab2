@@ -1,0 +1,96 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+	id 'jacoco'
+	id 'governance-as-code'
+	id 'com.google.cloud.tools.jib' version '3.3.1'
+}
+
+
+//Uncomment to activate spagen functionality also edit spagen.json
+//apply from: 'spagen.gradle'
+
+
+apply from: 'componentTestPlugin.gradle'
+apply from: 'captureTestdataPlugin.gradle'
+
+group = 'com.swedbank'
+sourceCompatibility = '18'
+jar.enabled = false
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.8"
+}
+
+repositories {
+	maven { url resolveRepoUrl }
+}
+
+dependencies {
+
+	//set spring cloud platform bom that sets versions for spring-cloud dependencies
+	//enforcedPlatform should only be set in applications, never in libraries
+	implementation enforcedPlatform('org.springframework.cloud:spring-cloud-dependencies:2021.0.4')
+
+	//spring boot dependenices
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Monitoring
+	implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	//Custom dependencies
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
+
+	//Swedbank developed libraries
+
+	implementation platform('com.swedbank.andromeda.spacetime:spacetime-platform:7.0.21')
+	implementation 'com.swedbank.andromeda.spacetime:lib-api-error'
+	implementation 'com.swedbank.andromeda.spacetime:lib-logging'
+	implementation 'com.swedbank.andromeda.spacetime:lib-spacetime-observability'
+
+	//spagen dependency
+	//implementation 'com.swedbank.andromeda.spacetime:lib-blackhole:1.2.3'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//wiremock for componentTests
+	testImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+jacocoTestReport {
+	String jacocoTestTasksString = project.hasProperty('jacocoTaskDependsOn') ?
+			project.getProperty('jacocoTaskDependsOn') : 'test,componentTests'
+	List jacocoTestTasks = jacocoTestTasksString.split(',')
+	def jacocoTestFiles = []
+	jacocoTestTasks.each { String taskName ->
+		def task = project.tasks.findByName(taskName)
+		if (task) {
+			jacocoTestFiles.add("${project.buildDir}/jacoco/${taskName}.exec")
+			dependsOn(task)
+		}
+	}
+	classDirectories.from(file("${project.buildDir}/classes/java/main"))
+	executionData.setFrom files(jacocoTestFiles)
+
+	reports.xml.required = true
+    reports.html.required = true
+}
+tasks.build.dependsOn tasks.jacocoTestReport

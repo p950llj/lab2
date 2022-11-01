@@ -1,0 +1,18 @@
+spacetime-springboot-common:
+
+# In production it should always be mutual TLS.
+  route:
+    termination: passthrough
+
+  observability:
+    appDynamics:
+      agent:
+        enabled: true
+
+  java:
+    javaToolOptions: >-
+      -Dspring.profiles.active=prod
+      -Xmx1g
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.net=ALL-UNNAMED
+      --add-opens=java.management/java.lang.management=ALL-UNNAMED

@@ -1,0 +1,29 @@
+pluginManagement {
+    repositories {
+        maven { url resolveRepoUrl }
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'governance-as-code') {
+                useModule("com.swedbank.andromeda.spacetime:gradle-governance-as-code:0.3.7")
+            }
+        }
+    }
+}
+
+buildCache {
+    local {
+        enabled = false
+    }
+    remote(HttpBuildCache) {
+        url = "${buildCacheUrl}"
+        credentials {
+            username = "${buildCacheUser}"
+            password = "${buildCachePassword}"
+        }
+        push = getProperty('buildCachePush').toBoolean()
+    }
+}
+
+rootProject.name = 'core-demo'

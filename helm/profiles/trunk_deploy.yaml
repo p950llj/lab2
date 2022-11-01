@@ -1,0 +1,19 @@
+spacetime-springboot-common:
+
+# This should be changed to 'passthrough' when you enable mutual TLS.
+  route:
+    termination: edge
+
+  observability:
+    appDynamics:
+      agent:
+        enabled: true
+
+  java:
+    javaToolOptions: >-
+      -Dspring.profiles.active=test
+      -Xmx1g
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.net=ALL-UNNAMED
+      --add-opens=java.management/java.lang.management=ALL-UNNAMED
+
