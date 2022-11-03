@@ -11,5 +11,5 @@ spacetimeApplication([
     ],
     openshiftBaseImage: 'docker-swedbank.repository.swedbank.net/cloudbees/spacetime-runtime:jdk18.0.2',
     podTemplateOverrideImageTags: [ build: 'jdk18.0.2' ],
-    disableHelloGurkaStage: true
+    disableDummyStage: false
 ])
