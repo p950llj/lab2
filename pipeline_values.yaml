@@ -1,0 +1,15 @@
+global:
+  pipeline:
+    imageFullName: docker-prod.repository.swedbank.net/sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802:dc402104caa603684b1badf1a5e7dc08bc461e52
+    deployLabels:      
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      BUILD_NUMBER: '2'      
+      BRANCH: integration
+      GIT_REPO: core-demo
+      GIT_PROJECT: pul
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      RELEASE_VERSION: 9.8.7    
+    route_predicted_subdomain: apps.scp-west-zone01-z01.swedbank.net
+    deploymentNamespace: sb-1079-spacetime-tools
+    clusterApiEndpoint: https://api.scp-west-zone01-z01.swedbank.net:6443
