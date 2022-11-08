@@ -1,0 +1,1001 @@
+Release "core-demo-gurka" has been upgraded. Happy Helming!
+NAME: core-demo-gurka
+LAST DEPLOYED: Tue Nov  8 17:28:25 2022
+NAMESPACE: sb-1079-spacetime-tools
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+USER-SUPPLIED VALUES:
+global:
+  pipeline:
+    clusterApiEndpoint: https://api.scp-west-zone01-z01.swedbank.net:6443
+    deployLabels:
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+    deploymentNamespace: sb-1079-spacetime-tools
+    imageFullName: docker-prod.repository.swedbank.net/sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802:dc402104caa603684b1badf1a5e7dc08bc461e52
+    route_predicted_subdomain: apps.scp-west-zone01-z01.swedbank.net
+spacetime-springboot-common:
+  java:
+    javaToolOptions: -Dspring.profiles.active=test -Xmx1g --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.management/java.lang.management=ALL-UNNAMED
+  observability:
+    appDynamics:
+      agent:
+        enabled: false
+  replicaCount: 1
+  route:
+    termination: edge
+
+COMPUTED VALUES:
+global:
+  pipeline:
+    clusterApiEndpoint: https://api.scp-west-zone01-z01.swedbank.net:6443
+    deployLabels:
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+    deploymentNamespace: sb-1079-spacetime-tools
+    imageFullName: docker-prod.repository.swedbank.net/sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802:dc402104caa603684b1badf1a5e7dc08bc461e52
+    route_predicted_subdomain: apps.scp-west-zone01-z01.swedbank.net
+spacetime-springboot-common:
+  appName: core-demo
+  autoscaling:
+    enabled: false
+    replicas:
+      maxReplicas: 6
+      minReplicas: 2
+      targetCPUPercentage: 80
+      targetMemoryPercentage: 80
+  container:
+    grafanaAgent:
+      resources:
+        cpuLimitsEnabled: true
+        limits:
+          cpu: 200m
+          memory: 1Gi
+        requests:
+          cpu: 20m
+          memory: 512Mi
+    healthEndpoint: /health/liveness
+    http:
+      targetPort: 8080
+    https:
+      targetPort: 8443
+    lifecycle:
+      preStop:
+        exec:
+          command:
+          - sh
+          - -c
+          - sleep 10
+    livenessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 2
+      periodSeconds: 3
+      successThreshold: 1
+      timeoutSeconds: 1
+    management:
+      scheme: HTTP
+      targetPort: 8080
+    readinessEndpoint: /health/readiness
+    readinessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 2
+      periodSeconds: 3
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      cpuLimitsEnabled: true
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+      requests:
+        cpu: 150m
+        memory: 512Mi
+    startupProbe:
+      failureThreshold: 30
+      periodSeconds: 3
+      timeoutSeconds: 1
+  environment:
+    configmaps:
+    - name: application-configmap-env
+    secrets:
+    - name: application-secret-env
+  global:
+    pipeline:
+      clusterApiEndpoint: https://api.scp-west-zone01-z01.swedbank.net:6443
+      deployLabels:
+        BRANCH: integration
+        BUILD_NUMBER: "2"
+        CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+        GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+        GIT_PROJECT: pul
+        GIT_REPO: core-demo
+        JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+        RELEASE_VERSION: 2.3.4
+      deploymentNamespace: sb-1079-spacetime-tools
+      imageFullName: docker-prod.repository.swedbank.net/sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802:dc402104caa603684b1badf1a5e7dc08bc461e52
+      route_predicted_subdomain: apps.scp-west-zone01-z01.swedbank.net
+  image:
+    pullPolicy: IfNotPresent
+  java:
+    javaToolOptions: -Dspring.profiles.active=test -Xmx1g --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.management/java.lang.management=ALL-UNNAMED
+    jdkJavaOptions: ""
+    springbootProfile: default
+  labels: {}
+  observability:
+    appDynamics:
+      agent:
+        config:
+          applicationName: Andromeda
+          env_configmap_name: appd-common-config
+          env_secret_name: appd-agent-account
+          mount_proxy_passw_file_name: proxypassw
+          mount_proxy_secret_name: appd-proxy-passfile
+          reuseNodeName: "true"
+        enabled: false
+        version: 22.5.0.33845
+      image:
+        version: 1.0.0
+    grafanaAgent:
+      config:
+        logging:
+          enabled: true
+          lokiEnabled: true
+          volumes:
+            logCollection:
+              sizeLimit: 512Mi
+            tmpAgent:
+              sizeLimit: 512Mi
+            varLog:
+              sizeLimit: 512Mi
+        metrics:
+          mimirEnabled: true
+          prometheusEnabled: true
+        tracing:
+          spanLoggingEnabled: false
+          tempoEnabled: true
+      enabled: true
+      image: grafana/agent:v0.28.0
+    multiClusterEnabled: true
+  persistence:
+    enabled: false
+    size: 1Gi
+  platform: Andromeda
+  pod:
+    securityContext:
+      supplementalGroups: []
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+  replicaCount: 1
+  route:
+    allowHttpPolicy: None
+    balance:
+      enable: true
+      type: roundrobin
+    enable: true
+    management:
+      balance:
+        enable: true
+        type: roundrobin
+      destinationCACertificate: |-
+        -----BEGIN CERTIFICATE-----
+        MIIDvjCCAqagAwIBAgIEIAAAADANBgkqhkiG9w0BAQUFADBKMQswCQYDVQQGEwJF
+        VTEXMBUGA1UEChMOU3dlZGJhbmsgR3JvdXAxIjAgBgNVBAMTGVN3ZWRiYW5rIEdy
+        b3VwIFJvb3QgQ0EgdjEwHhcNMDkwOTIyMTE1OTA3WhcNMjkwOTIxMTE1OTA3WjBK
+        MQswCQYDVQQGEwJFVTEXMBUGA1UEChMOU3dlZGJhbmsgR3JvdXAxIjAgBgNVBAMT
+        GVN3ZWRiYW5rIEdyb3VwIFJvb3QgQ0EgdjEwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+        DwAwggEKAoIBAQC92Yb8faTqFdQXbLhMefjZg1HQhcZ2OzYLhcOaiGx5sN1QPEIy
+        VW/Hu5qRnHGgO6Oq0nD9WF7Bg5ctjPIVt1gCK98TWY9I7EorBNRpacgBDI4GCiK9
+        ySjfZaoD25hA84YKUHRPVTskoDMBmfCzhGvdLsAhJD1/tyAOtBTuV+X/aHbLIW5Q
+        wWr8DPHc9QpTJsQJ+uQBK9iqvmZusb1aCI1AaEjOaYgVYpZ3h+PGrRrTncz7lcyG
+        +ejkwdEWmXOEH1HhdOpVrXXUqmDmQmLNNnTJZuvZzluD2OculyL4sEK53HV3ki3c
+        /MlyPstwavgnF+ygEkD8ybsIWejB9ApJTteFAgMBAAGjgaswgagwHQYDVR0OBBYE
+        FPAvtUmgvfMpCRGt1WAZJccPzKp6MB8GA1UdIwQYMBaAFPAvtUmgvfMpCRGt1WAZ
+        JccPzKp6MA8GA1UdEwEB/wQFMAMBAf8wCwYDVR0PBAQDAgEGMEgGA1UdIARBMD8w
+        PQYLKwYBBAGCi1sBAQEwLjAsBggrBgEFBQcCARYgaHR0cDovL3d3dy5zd2VkYmFu
+        ay5jb20vcGtpL2Nwcy8wDQYJKoZIhvcNAQEFBQADggEBAL2jZnjZR3SOdDKoAMVI
+        V91dDDq+d4qkA6ZPVNitMjoe4x7RkS6YDTopK0btjvb9bGwzC/lQ+EQTbvSiEUlE
+        aErXX0/qcJLUlMB01YzMTKK5dNBp5U9fi1MbLaOZeiuAxR2CxmgHbR/r7FaNuaTs
+        01C6bDiWHop/oQLl0mN6U+WSw9BEPXoatFfrCk95B+H3tTLbjMCawKBIDlrnP+fV
+        Y2govemX2XPyaJlQgasfwsHSPjHq4FWkGcWOzD3L/Hc06Nwha/vIhSRKI6yuKJpf
+        dgVo1f7eFrF6Zp/nSQ22WDuRmYXsWFwzw8CiMCUKkhR/k6vXZ7A9GeqmZwkcZATZ
+        rx0=
+        -----END CERTIFICATE-----
+      enable: false
+      host: ""
+      path: /health/readiness
+      service: ""
+      targetPort: service-http-management
+      termination: edge
+      timeout: 120s
+    termination: edge
+    timeout: 120s
+  service:
+    enableHttp: false
+    http:
+      port: 80
+    https:
+      port: 443
+    type: ClusterIP
+  serviceId: 1079
+  tier: core
+  volumes:
+    configmaps:
+    - mountPath: /opt/volumemount
+      name: application-configmap-mount
+    secrets:
+    - mountPath: /opt/secretmount
+      name: application-secret-mount
+
+HOOKS:
+MANIFEST:
+---
+# Source: core-demo/charts/spacetime-springboot-common/templates/general-configs-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-demo-gurka
+  labels:
+      app: core-demo-gurka
+      applicationInstance: core-demo-gurka
+      app.kubernetes.io/managed-by: Helm
+      monitor: "true"
+      application: core-demo
+      tier: core
+      backstage.io/kubernetes-id: core-demo
+      swedbank.common/app: core-demo-gurka
+      swedbank.common/applicationInstance: core-demo-gurka
+      swedbank.common/application: core-demo
+      swedbank.common/tier: core
+      swedbank.observability/isMonitored: "true"
+      swedbank.observability/platform: "Andromeda"
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+data:
+    PROFILE: "default"
+    JAVA_TOOL_OPTIONS: >-
+        -Dspring.profiles.active=test -Xmx1g --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.management/java.lang.management=ALL-UNNAMED
+---
+# Source: core-demo/charts/spacetime-springboot-common/templates/observability-configs-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-demo-gurka-obs-cm
+  labels:
+      app: core-demo-gurka
+      applicationInstance: core-demo-gurka
+      app.kubernetes.io/managed-by: Helm
+      monitor: "true"
+      application: core-demo
+      tier: core
+      backstage.io/kubernetes-id: core-demo
+      swedbank.common/app: core-demo-gurka
+      swedbank.common/applicationInstance: core-demo-gurka
+      swedbank.common/application: core-demo
+      swedbank.common/tier: core
+      swedbank.observability/isMonitored: "true"
+      swedbank.observability/platform: "Andromeda"
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+data:
+  agent.yaml: |-
+    ---
+    integrations:
+      labels:
+        application_instance: ${APPLICATION_INSTANCE}
+        application: ${APPLICATION}
+        namespace: ${RUNNING_NAMESPACE}
+        cluster: scp-west-zone01-z01
+        tier: core
+        platform: Andromeda
+        pod: ${HOSTNAME}
+        job: core-demo-integrations/agent
+      agent:
+        enabled: true
+    server:
+        log_level: debug
+    traces:
+        configs:
+            - name: default
+              service_graphs:
+                enabled: true
+              attributes:
+                 actions:
+                    - action: upsert
+                      key: tier
+                      value: core
+                    - action: upsert
+                      key: platform
+                      value: Andromeda
+                    - action: upsert
+                      key: application_instance
+                      value: ${APPLICATION_INSTANCE}
+                    - action: upsert
+                      key: application
+                      value: ${APPLICATION}
+                    - action: upsert
+                      key: namespace
+                      value: ${RUNNING_NAMESPACE}
+                    - action: upsert
+                      key: cluster
+                      value: scp-west-zone01-z01
+              receivers:
+                  zipkin:
+              remote_write:
+                - endpoint: "plg-tempo-distributed-distributor.sb-9459-andromeda-monitoring.svc:4317"
+                  insecure: true
+                  protocol: grpc
+                - endpoint: "http://plg-tempo-distributor-otlp-http-sb-9459-andromeda-monitoring.apps.scp-west-zone02-z01.swedbank.net:80"
+                  protocol: http
+                  insecure: true
+              batch:
+                  timeout: 5s
+                  send_batch_size: 100
+    logs:
+        configs:
+              - name: local-loki-config
+                positions:
+                  filename: /tmp/positions-local-agent.yaml
+                  sync_period: 5s
+                clients:
+                  - url: "http://plg-loki-distributed-gateway.sb-9459-andromeda-monitoring.svc:80/loki/api/v1/push"
+                    tls_config:
+                        insecure_skip_verify: true
+                scrape_configs:
+                - job_name: 'core-demo_app'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: app
+                            __path__: '/home/promtail-logs/*app*log'
+                  pipeline_stages:
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - regex:
+                                source: filename
+                                expression: _(?P<source_index>.*_[0-9]+).log
+                            - json:
+                                expressions:
+                                  timestamp: timestamp
+                                  level: level
+                            - labels:
+                                source_index:
+                                level:
+                            - timestamp:
+                                source: timestamp
+                                format: RFC3339Nano
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+                - job_name: 'core-demo_access'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: access
+                            __path__: /home/promtail-logs/*access*log
+                  pipeline_stages:
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - regex:
+                                source: filename
+                                expression: _(?P<source_index>.*_[0-9]+).log
+                            - json:
+                                expressions:
+                                  timestamp: timestamp
+                                  level: level
+                            - labels:
+                                source_index:
+                                level:
+                            - timestamp:
+                                source: timestamp
+                                format: RFC3339Nano
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+                - job_name: 'core-demo_appd'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: appd
+                            __path__: '/home/promtail-logs/appd/*/agent*.log'
+                  pipeline_stages:
+                      - multiline:
+                         firstline: ^[[]
+                         max_lines: 256
+                      - regex:
+                         # The RE2 regular expression. Each capture group must be named.
+                         #    [AD Thread Pool-Global0] 04 May 2021 10:52:59,053  WARN NetVizConfigurationChannel - NetViz: Number of communication failures with netviz agent exceeded maximum allowed [3]. Disabling config requests.
+                         expression: "^[[](?P<thread>[A-Za-z0-9 -]+)[]] (?P<time>[0-9]{2} [A-Za-z]{3} [0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3})  (?P<level>[A-Z]{4}) (?P<content>.*)$"
+                      - labels:
+                         thread:
+                         level:
+                      - output:
+                         source: content
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - timestamp:
+                                source: time
+                                format: "02 Jan 2006 15:04:05.000"
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+              - name: remote-loki-config
+                positions:
+                  filename: /tmp/positions-remote-agent.yaml
+                  sync_period: 5s
+                clients:
+                  - url: "https://plg-loki-gateway-sb-9459-andromeda-monitoring.apps.scp-west-zone02-z01.swedbank.net/loki/api/v1/push"
+                    tls_config:
+                      insecure_skip_verify: true
+                scrape_configs:
+                - job_name: 'core-demo_app'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: app
+                            __path__: '/home/promtail-logs/*app*log'
+                  pipeline_stages:
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - regex:
+                                source: filename
+                                expression: _(?P<source_index>.*_[0-9]+).log
+                            - json:
+                                expressions:
+                                  timestamp: timestamp
+                                  level: level
+                            - labels:
+                                source_index:
+                                level:
+                            - timestamp:
+                                source: timestamp
+                                format: RFC3339Nano
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+                - job_name: 'core-demo_access'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: access
+                            __path__: /home/promtail-logs/*access*log
+                  pipeline_stages:
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - regex:
+                                source: filename
+                                expression: _(?P<source_index>.*_[0-9]+).log
+                            - json:
+                                expressions:
+                                  timestamp: timestamp
+                                  level: level
+                            - labels:
+                                source_index:
+                                level:
+                            - timestamp:
+                                source: timestamp
+                                format: RFC3339Nano
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+                - job_name: 'core-demo_appd'
+                  static_configs:
+                      - targets:
+                            - localhost
+                        labels:
+                            tier: core
+                            platform: Andromeda
+                            application_instance: ${APPLICATION_INSTANCE}
+                            namespace: ${RUNNING_NAMESPACE}
+                            application: ${APPLICATION}
+                            cluster: scp-west-zone01-z01
+                            job: ${APPLICATION}
+                            pod: ${HOSTNAME}
+                            log_type: appd
+                            __path__: '/home/promtail-logs/appd/*/agent*.log'
+                  pipeline_stages:
+                      - multiline:
+                         firstline: ^[[]
+                         max_lines: 256
+                      - regex:
+                         # The RE2 regular expression. Each capture group must be named.
+                         #    [AD Thread Pool-Global0] 04 May 2021 10:52:59,053  WARN NetVizConfigurationChannel - NetViz: Number of communication failures with netviz agent exceeded maximum allowed [3]. Disabling config requests.
+                         expression: "^[[](?P<thread>[A-Za-z0-9 -]+)[]] (?P<time>[0-9]{2} [A-Za-z]{3} [0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3})  (?P<level>[A-Z]{4}) (?P<content>.*)$"
+                      - labels:
+                         thread:
+                         level:
+                      - output:
+                         source: content
+                      - match:
+                            selector: '{job="core-demo"}'
+                            stages:
+                            - timestamp:
+                                source: time
+                                format: "02 Jan 2006 15:04:05.000"
+                                location: UTC
+                                action_on_failure: skip
+                            - labeldrop:
+                                - filename
+    metrics:
+      global:
+        scrape_interval: 45s
+        scrape_timeout: 10s
+        remote_write:
+            - url: "http://prometheus-operated.sb-9459-andromeda-monitoring.svc.cluster.local:9090/api/v1/write"
+              send_exemplars: true
+              queue_config:
+                #this is reduced from 200 which is too many for single pod agent
+                max_shards: 10
+                #increased from 5s to 30s
+                max_backoff: 30s
+                #increased capacity of the shards from 2500 to 10000 samples
+                capacity: 10000
+                #increased from 500 to 2000
+                max_samples_per_send: 2000
+              tls_config:
+                insecure_skip_verify: true
+            - url: "http://prometheus-sb-9459-andromeda-monitoring.apps.scp-west-zone02-z01.swedbank.net/api/v1/write"
+              send_exemplars: true
+              queue_config:
+                #this is reduced from 200 which is too many for single pod agent
+                max_shards: 10
+                #increased from 5s to 30s
+                max_backoff: 30s
+                #increased capacity of the shards from 2500 to 10000 samples
+                capacity: 10000
+                #increased from 500 to 2000
+                max_samples_per_send: 2000
+              tls_config:
+                insecure_skip_verify: true
+            - url: "http://plg-mimir-nginx.sb-9459-andromeda-monitoring.svc.cluster.local/api/v1/push"
+              send_exemplars: true
+              queue_config:
+                #this is reduced from 200 which is too many for single pod agent
+                max_shards: 10
+                #increased from 5s to 30s
+                max_backoff: 30s
+                #increased capacity of the shards from 2500 to 10000 samples
+                capacity: 10000
+                #increased from 500 to 2000
+                max_samples_per_send: 2000
+              tls_config:
+                insecure_skip_verify: true
+            - url: "http://plg-mimir-sb-9459-andromeda-monitoring.apps.scp-west-zone02-z01.swedbank.net/api/v1/push"
+              send_exemplars: true
+              queue_config:
+                #this is reduced from 200 which is too many for single pod agent
+                max_shards: 10
+                #increased from 5s to 30s
+                max_backoff: 30s
+                #increased capacity of the shards from 2500 to 10000 samples
+                capacity: 10000
+                #increased from 500 to 2000
+                max_samples_per_send: 2000
+              tls_config:
+                insecure_skip_verify: true
+      configs:
+        - name: default
+          host_filter: false
+          scrape_configs:
+            - job_name: 'core-demo'
+              honor_timestamps: true
+              scrape_interval: 15s
+              scrape_timeout: 3s
+              scheme: HTTP
+              follow_redirects: true
+              metrics_path: /metrics/prometheus
+              tls_config:
+                insecure_skip_verify: true
+              static_configs:
+                - targets: [localhost:8080]
+                  labels:
+                    tier: core
+                    platform: Andromeda
+                    application_instance: ${APPLICATION_INSTANCE}
+                    application: ${APPLICATION}
+                    namespace: ${RUNNING_NAMESPACE}
+                    cluster: scp-west-zone01-z01
+                    pod: ${HOSTNAME}
+                    instance: ${IP_ADDRESS}:8080
+                    container: ${APPLICATION_CONTAINER_NAME}
+---
+# Source: core-demo/charts/spacetime-springboot-common/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-demo-gurka
+  labels:
+      app: core-demo-gurka
+      applicationInstance: core-demo-gurka
+      app.kubernetes.io/managed-by: Helm
+      monitor: "true"
+      application: core-demo
+      tier: core
+      backstage.io/kubernetes-id: core-demo
+      swedbank.common/app: core-demo-gurka
+      swedbank.common/applicationInstance: core-demo-gurka
+      swedbank.common/application: core-demo
+      swedbank.common/tier: core
+      swedbank.observability/isMonitored: "true"
+      swedbank.observability/platform: "Andromeda"
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+spec:
+  selector:
+    app: core-demo-gurka
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    name: service-https
+    port: 443
+    targetPort: 8443
+  - protocol: TCP
+    name: service-http-management
+    port: 8080
+    targetPort: 8080
+---
+# Source: core-demo/charts/spacetime-springboot-common/templates/deployment.yaml
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: core-demo-gurka
+  labels:
+      app: core-demo-gurka
+      applicationInstance: core-demo-gurka
+      app.kubernetes.io/managed-by: Helm
+      monitor: "true"
+      application: core-demo
+      tier: core
+      backstage.io/kubernetes-id: core-demo
+      swedbank.common/app: core-demo-gurka
+      swedbank.common/applicationInstance: core-demo-gurka
+      swedbank.common/application: core-demo
+      swedbank.common/tier: core
+      swedbank.observability/isMonitored: "true"
+      swedbank.observability/platform: "Andromeda"
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+spec:
+  replicas: 1
+  selector:
+    app: core-demo-gurka
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      # TODO Replace with 25%. Current value should work with 1 pod.
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+          app: core-demo-gurka
+          applicationInstance: core-demo-gurka
+          app.kubernetes.io/managed-by: Helm
+          monitor: "true"
+          application: core-demo
+          tier: core
+          backstage.io/kubernetes-id: core-demo
+          swedbank.common/app: core-demo-gurka
+          swedbank.common/applicationInstance: core-demo-gurka
+          swedbank.common/application: core-demo
+          swedbank.common/tier: core
+          swedbank.observability/isMonitored: "true"
+          swedbank.observability/platform: "Andromeda"
+          BRANCH: integration
+          BUILD_NUMBER: "2"
+          CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+          GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+          GIT_PROJECT: pul
+          GIT_REPO: core-demo
+          JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+          RELEASE_VERSION: 2.3.4
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm :
+              labelSelector:
+                matchExpressions:
+                  - key: swedbank.common/app
+                    operator: In
+                    values:
+                      - core-demo-gurka
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      securityContext:
+        supplementalGroups: []
+      terminationGracePeriodSeconds: 30
+      serviceAccountName: default
+      containers:
+        - name: core-demo
+          image: docker-prod.repository.swedbank.net/sb-1079-spacetime-tools/core-demo-spacetime-runtimejdk1802:dc402104caa603684b1badf1a5e7dc08bc461e52
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: LOG_SHIPPING_ENABLED
+              value: "true"
+            - name: PROMTAIL_ENABLED
+              value: "true"
+            - name: RUNNING_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CLUSTER
+              value: scp-west-zone01-z01
+            - name: JAEGER_ZIPKIN_COLLECTOR
+              value: "http://localhost:9411"
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health/readiness
+              port: 8080
+              scheme: HTTP
+            periodSeconds: 3
+            timeoutSeconds: 1
+            failureThreshold: 30
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                    - sh
+                    - -c
+                    - sleep 10
+          volumeMounts:
+            - name: application-configmap-mount
+              mountPath: /opt/volumemount
+            - name: application-secret-mount
+              mountPath: /opt/secretmount
+            - name: log-collection
+              mountPath: /home/promtail-logs
+          envFrom:
+            - configMapRef:
+                name: core-demo-gurka
+            - configMapRef:
+                name: application-configmap-env
+                optional: true
+            - secretRef:
+                name: application-secret-env
+                optional: true
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 150m
+              memory: 512Mi
+        - name: grafana-agent
+          image: docker-swedbank-virtual.repository.swedbank.net/grafana/agent:v0.28.0
+          env:
+            - name: APPLICATION_CONTAINER_NAME
+              value: core-demo
+            - name: IP_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: APPLICATION_INSTANCE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['swedbank.common/applicationInstance']
+            - name: APPLICATION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['swedbank.common/application']
+            - name: RUNNING_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          volumeMounts:
+           - name: log-collection
+             mountPath: /home/promtail-logs
+           - name: grafana-agent-config
+             mountPath: /etc/grafana-agent-config/
+           - name: tmp-agent
+             mountPath: /tmp/agent/wal
+           - name: var-log
+             mountPath: /var/log
+          args:
+            - '-config.expand-env=true'
+            - "-config.file=/etc/grafana-agent-config/agent.yaml"
+            - "-disable-reporting"
+            - "-metrics.wal-directory=/tmp/agent/wal"
+            - "-server.http.address=127.0.0.1:12345"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 20m
+              memory: 512Mi
+      volumes:
+          - name: application-configmap-mount
+            configMap:
+              name: application-configmap-mount
+              optional: true
+          - name: application-secret-mount
+            secret:
+              secretName: application-secret-mount
+              optional: true
+          - name: log-collection
+            emptyDir:
+              sizeLimit: 512Mi
+          - name: tmp-agent
+            emptyDir:
+              sizeLimit: 512Mi
+          - name: var-log
+            emptyDir:
+              sizeLimit: 512Mi
+          - name: grafana-agent-config
+            configMap:
+               name: core-demo-gurka-obs-cm
+---
+# Source: core-demo/charts/spacetime-springboot-common/templates/route.yaml
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: core-demo-gurka
+  labels:
+      app: core-demo-gurka
+      applicationInstance: core-demo-gurka
+      app.kubernetes.io/managed-by: Helm
+      monitor: "true"
+      application: core-demo
+      tier: core
+      backstage.io/kubernetes-id: core-demo
+      swedbank.common/app: core-demo-gurka
+      swedbank.common/applicationInstance: core-demo-gurka
+      swedbank.common/application: core-demo
+      swedbank.common/tier: core
+      swedbank.observability/isMonitored: "true"
+      swedbank.observability/platform: "Andromeda"
+      BRANCH: integration
+      BUILD_NUMBER: "2"
+      CIID: 19eba223-d4fb-44d9-b7fd-a073f340d871
+      GIT_COMMIT: dc402104caa603684b1badf1a5e7dc08bc461e52
+      GIT_PROJECT: pul
+      GIT_REPO: core-demo
+      JOB_NAME: SpacetimeTools-1079SpacetimeDemocore-demointegration
+      RELEASE_VERSION: 2.3.4
+# goes under matadata tag
+  annotations:
+    haproxy.router.openshift.io/timeout: 120s
+    haproxy.router.openshift.io/disable_cookies: "true"
+    haproxy.router.openshift.io/balance: roundrobin
+spec:
+  host: core-demo-gurka.apps.scp-west-zone01-z01.swedbank.net
+  subdomain: ''
+  to:
+    kind: Service
+    name: core-demo-gurka
+    weight: 100
+  port:
+    targetPort: service-https
+  tls:
+      termination: edge
+      insecureEdgeTerminationPolicy: None
+  wildcardPolicy: None
+
